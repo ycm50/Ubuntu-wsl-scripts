@@ -1,0 +1,156 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "dns": {
+    "hosts": {
+      "dns.google": "8.8.8.8",
+      "proxy.example.com": "127.0.0.1"
+    },
+    "servers": [
+      {
+        "address": "1.1.1.1",
+        "domains": [
+          "geosite:geolocation-!cn"
+        ],
+        "expectIPs": [
+          "geoip:!cn"
+        ]
+      },
+      {
+        "address": "223.5.5.5",
+        "skipFallback": true,
+        "domains": [
+          "geosite:cn"
+        ],
+        "expectIPs": [
+          "geoip:cn"
+        ]
+      },
+      "8.8.8.8",
+      "https://dns.google/dns-query"
+    ]
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 2081,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "routeOnly": false
+      },
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "allowTransparent": false
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "2a06:98c1:58:f648:eedc:ce6c:bdd6:a210",
+            "port": 2053,
+            "users": [
+              {
+                "id": "53e4d25a-db8a-45b9-8be1-96eca710b50b",
+                "email": "t@t.tt",
+                "security": "auto",
+                "encryption": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": false,
+          "serverName": "ygkkk.yyycccmmm.dpdns.org",
+          "fingerprint": "randomized"
+        },
+        "wsSettings": {
+          "path": "/?ed=2560",
+          "host": "ygkkk.yyycccmmm.dpdns.org",
+          "headers": {
+            "Host": "ygkkk.yyycccmmm.dpdns.org"
+          }
+        },
+        "sockopt": {
+          "dialerProxy": "proxy3"
+        }
+      },
+      "mux": {
+        "enabled": false,
+        "concurrency": -1
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    },
+    {
+      "tag": "proxy3",
+      "protocol": "freedom",
+      "settings": {
+        "fragment": {
+          "packets": "tlshello",
+          "length": "100-200",
+          "interval": "10-20"
+        }
+      }
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api"
+      },
+      {
+        "type": "field",
+        "port": "443",
+        "network": "udp",
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "ip": [
+          "geoip:private"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "domain": [
+          "geosite:private"
+        ]
+      },
+      {
+        "type": "field",
+        "port": "0-65535",
+        "outboundTag": "proxy"
+      }
+    ]
+  }
+}

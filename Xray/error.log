@@ -1,0 +1,5 @@
+2025/07/23 15:24:32.143158 [Warning] core: Xray 25.6.8 started
+2025/07/23 15:29:48.614639 [Error] [2948537274] transport/internet/websocket: failed to dial to www.visaeurope.ch:2083 > dial tcp: lookup www.visaeurope.ch on 10.255.255.254:53: read udp 10.255.255.254:42082->10.255.255.254:53: i/o timeout
+2025/07/23 15:29:58.619506 [Error] [2948537274] transport/internet/websocket: failed to dial to www.visaeurope.ch:2083 > dial tcp: lookup www.visaeurope.ch on 10.255.255.254:53: read udp 10.255.255.254:53980->10.255.255.254:53: i/o timeout
+2025/07/23 15:30:08.827000 [Error] [2948537274] transport/internet/websocket: failed to dial to www.visaeurope.ch:2083 > dial tcp: lookup www.visaeurope.ch on 10.255.255.254:53: read udp 10.255.255.254:36553->10.255.255.254:53: i/o timeout
+2025/07/23 15:30:57.242181 [Error] [2378426940] transport/internet/websocket: failed to dial to www.visaeurope.ch:2083 > dial tcp: lookup www.visaeurope.ch on 10.255.255.254:53: read udp 10.255.255.254:35989->10.255.255.254:53: i/o timeout
