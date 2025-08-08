@@ -1,3 +1,13 @@
+ppa(){
+  # 安装用于管理 PPA 的工具
+  sudo apt install -y software-properties-common
+
+  # 添加 deadsnakes PPA
+  sudo add-apt-repository ppa:deadsnakes/ppa
+
+  # 更新软件包列表（添加 PPA 后必须执行）
+  sudo apt update
+}
 pyins(){
   # 检查参数是否提供
   if [ -z "$1" ]; then
@@ -16,7 +26,7 @@ pyins(){
   
   # 下载指定版本的Python包
   echo "正在下载Python  包..."
-  apt download "libpython$ver-minimal" "libpython$ver-stdlib" "python$ver-minimal" "python$ver" "python3.11-tk"
+  apt download "libpython$ver-minimal"  "libpython$ver-stdlib" "python$ver-minimal" "python$ver" "python3.11-tk"
   
   # 检查下载是否成功
   if [ $? -ne 0 ]; then
@@ -43,7 +53,9 @@ pyins(){
     return 1
   fi
   curl https://bootstrap.pypa.io/get-pip.py | /mnt/d/py$ver/usr/bin/python$ver
-  curl https://bootstrap.pypa.io/pip/$ver/get-pip.py | /mnt/d/py$ver/usr/bin/python$ver
+  if [ $ver <3.9 ]; then
+    curl https://bootstrap.pypa.io/pip/$ver/get-pip.py | /mnt/d/py$ver/usr/bin/python$ver
+  fi
   rm -rf ./*.deb
 }
 py(){
